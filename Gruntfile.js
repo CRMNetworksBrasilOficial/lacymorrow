@@ -13,10 +13,10 @@ module.exports = function(grunt) {
     You are responsible for keeping assets up to date (e.g. git pull) */
     exec: {
       ng: {
-        command: '(cd assets/angular.js;npm install;grunt -f)'
+        command: '(cd assets/angular.js;git pull;npm install;grunt -f)'
       },
       bootstrap: {
-        command: '(cd assets/bootstrap;npm install;grunt -f)'
+        command: '(cd assets/bootstrap;git pull;npm install;grunt -f)'
       }
     },
     copy: {
@@ -41,7 +41,9 @@ module.exports = function(grunt) {
         dest: 'dist/'
       },
       favicon: {
-        src: 'src/img/favicon.ico',
+        expand: true,
+        cwd: 'src/img/',
+        src: 'favicon.ico',
         dest: 'dist/'
       },
       fonts: {
@@ -54,6 +56,12 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'src/html/',
         src: ['**'],
+        dest: 'dist/'
+      },
+      img: {
+        expand: true,
+        cwd: 'src/',
+        src: ['img/**'],
         dest: 'dist/'
       }
     },
@@ -146,9 +154,9 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'src/', 
-          src: ['img/**/*.{png,jpg,gif}'],
-          dest: 'dist/'
+          //cwd: '', 
+          src: ['src/img/**/*'],
+          dest: 'dist/img/'
         }]
       }
     },
@@ -202,7 +210,7 @@ module.exports = function(grunt) {
   grunt.registerTask('assets', ['exec', 'copy']);
   grunt.registerTask('js', ['concat:js', 'uglify']);
   grunt.registerTask('css', ['less', 'concat:css', 'clean:less', 'autoprefixer', 'csscomb', 'cssmin']);
-  grunt.registerTask('static', ['copy', 'imagemin', 'htmlbuild']);
+  grunt.registerTask('static', ['copy',/* 'imagemin', */ 'htmlbuild']);
   grunt.registerTask('dist', ['clean:dist', 'js', 'css', 'static']);
   grunt.registerTask('serve', ['dist','connect','watch']);
   grunt.registerTask('all', ['assets','test','dist']);
