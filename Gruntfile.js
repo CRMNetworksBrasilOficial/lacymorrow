@@ -5,16 +5,16 @@ module.exports = function(grunt) {
     banner: '/*!\n' +
           ' * <%= pkg.name%> v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
           ' * Copyright 2014-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-          ' * Licensed under <%= _.pluck(pkg.licenses, "type") %> (<%= _.pluck(pkg.licenses, "url") %>)\n' +
+          ' * Licensed under <%= _.pluck(pkg.licenses, "type") %>\n' +
           ' */\n',
     jqueryCheck: 'if (typeof jQuery === \'undefined\') { throw new Error(\'Bootstrap requires jQuery\') }\n\n',
     /* EXECUTE BUILD ASSET GRUNT - 
     Remember: to add new assets install to devDependencies (package.json) and copy list below.
     You are responsible for keeping assets up to date (e.g. git pull) */
     exec: {
-      ng: {
+      /* ng: {
         command: '(cd assets/angular.js;git pull;npm install;grunt -f)'
-      },
+      }, */
       bootstrap: {
         command: '(cd assets/bootstrap;git pull;npm install;grunt -f)'
       }
@@ -27,12 +27,14 @@ module.exports = function(grunt) {
         src: ['**'],
         dest: 'dist/assets/bootstrap/'
       },
+      /*
       ng: {
         expand: true,
         cwd: 'assets/angular.js/build/',
         src: ['**'],
         dest: 'dist/assets/ng/'
       },
+      */
     /* END OF BUILD ASSETS */
       app: {
         expand: true,
@@ -54,14 +56,20 @@ module.exports = function(grunt) {
       },
       html: {
         expand: true,
-        cwd: 'src/html/',
-        src: ['**'],
+        cwd: 'src/',
+        src: ['html/**'],
         dest: 'dist/'
       },
       img: {
         expand: true,
         cwd: 'src/',
         src: ['img/**'],
+        dest: 'dist/'
+      },
+      index: {
+        expand: true,
+        cwd: 'src/',
+        src: ['index*'],
         dest: 'dist/'
       }
     },
@@ -95,11 +103,20 @@ module.exports = function(grunt) {
         },
         src: ['src/js/**/*.js'],
         dest: 'dist/js/<%= pkg.name %>.js'
-      }
+      },
+      php: {
+      	options: {
+	        banner: '',
+	        stripBanners: true
+	      },
+        src: ['src/app/functions/**/*.php'],
+        dest: 'dist/app/functions.php'
+      },
     },
     connect: {
       server: {
         options: {
+          open: true,
           port: 8000,
           base: 'dist/'
         }
@@ -190,6 +207,15 @@ module.exports = function(grunt) {
         }
       }
     },
+    php: {
+        server: {
+            options: {
+                port: 8000,
+                base: 'dist/',
+                open: true
+            }
+        }
+    },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
@@ -210,9 +236,9 @@ module.exports = function(grunt) {
   grunt.registerTask('assets', ['exec', 'copy']);
   grunt.registerTask('js', ['concat:js', 'uglify']);
   grunt.registerTask('css', ['less', 'concat:css', 'clean:less', 'autoprefixer', 'csscomb', 'cssmin']);
-  grunt.registerTask('static', ['copy',/* 'imagemin', */ 'htmlbuild']);
-  grunt.registerTask('dist', ['clean:dist', 'js', 'css', 'static']);
-  grunt.registerTask('serve', ['dist','connect','watch']);
+  grunt.registerTask('static', ['copy',/* 'imagemin', 'htmlbuild' */]);
+  grunt.registerTask('dist', ['clean:dist', 'js', 'css', 'concat:php', 'static']);
+  grunt.registerTask('serve', ['dist',/* 'connect', */ 'php', 'watch']);
   grunt.registerTask('all', ['assets','test','dist']);
   grunt.registerTask('default', ['dist']);
 };
