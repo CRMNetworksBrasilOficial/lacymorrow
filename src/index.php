@@ -6,21 +6,12 @@
   } else { $auth = false; }
 
   $theme = 'app';
-  require_once($theme.'/functions.php');
+  require_once($theme.'/includes/functions.php');
   // Allow the public to view instrument database
   $public_browse = true;
   $page = (isset($_GET['p'])) ? $_GET['p'] : 'home';
-  $included = include_once($theme.'/'.$page.'.php');
+  $valid_page = include_once($theme.'/views/'.$page.'.php');
 
   // 404 ERROR
-  if(!$included){ 
-    include_once($theme.'/inc/header.php'); ?>
-
-    <div class="page-header">
-      <h1>Whoops!</h1>
-    </div>
-    <p class="lead">You are quite the explorer to get here, unfortunately you found a page that doesn't exist!
-    <a href="./">Click here to teleport home.</a></p>
-
-<?php  include_once($theme.'/inc/footer.php');
-} ?>
+  if(!$valid_page){ require_once($theme.'/views/404.php'); } 
+?>

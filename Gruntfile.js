@@ -109,8 +109,8 @@ module.exports = function(grunt) {
 	        banner: '',
 	        stripBanners: true
 	      },
-        src: ['src/app/functions/**/*.php'],
-        dest: 'dist/app/functions.php'
+        src: ['src/app/includes/functions/**/*.php'],
+        dest: 'dist/app/includes/functions.php'
       },
     },
     connect: {
