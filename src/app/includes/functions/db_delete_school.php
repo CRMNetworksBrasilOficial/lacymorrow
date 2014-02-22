@@ -6,6 +6,12 @@ function db_delete_school($id){
         $options = array('dir' => 'app/db');
         // Load the databases
         $schools = Flintstone::load('schools', $options);
+        $inst = db_get_instruments();
+        foreach ($inst as $i) {
+            if($i['lid'] == $id){
+                return 'There are instruments still attached to this school. Please delete the instruments before deleting the school.';
+            }
+        }
         $schools->delete($id);
         return true;
     }

@@ -10,8 +10,41 @@ if(isset($_SESSION['alert'])){ ?>
 <?php unset($_SESSION['alert']);
 } ?>
 
+<div class="row"> 
+<?php if($_SESSION['level'] == 'admin'){ ?>
+	<div class="col-sm-6">
+		<h3>Add an Instrument</h3>
+		<form role="form" method="post" action="app/includes/add_instrument.php">
+		  <div class="form-group">
+		    <label for="i-type">Type of instrument</label>
+		    <input type="text" class="form-control" name="i-type" id="i-type" placeholder="Type of instrument" required>
+		  </div>
+		  <div class="form-group">
+		    <label for="i-location">Location</label>
+		    <input type="text" class="form-control" name="i-location" id="i-location" placeholder="Location" required>
+		  </div>
+		  <button type="submit" class="btn btn-default">Add Instrument</button>
+		</form>
+	</div>
+	<?php if(isset($_GET['i'])){ $ins = db_get_instrument($_GET['i']);?>
+		<div class="col-sm-6">
+			<h3>Checkout Instrument #<?php echo $ins['id'].':  '.$ins['type']; ?></h3>
+			<form role="form" method="post" action="app/includes/update_instrument.php">
+			  <div class="form-group">
+			    <label class="sr-only" for="i-type">Checked out to</label>
+			    <input type="text" class="form-control" name="i-type" id="i-type" placeholder="Email">
+			  </div>
+			  <input type="hidden" name="id" value="<?php echo $ins['id']; ?>">
+			  <button type="submit" class="btn btn-info">Update User</button>
+			</form>
+		</div>
+	<?php } ?>
+<?php } ?>
+</div>
+
+
 <h1>Browse Instruments</h1>
-<table class="table table-striped">
+<table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th>#</th>
@@ -23,28 +56,30 @@ if(isset($_SESSION['alert'])){ ?>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>1000</td>
-			<td>Myers Park High</td>
-			<td>Clarinet</td>
-			<td>
-				<?php if($checkedout){ ?>
-					<a href="?p=user&u=lacymorrow">lacymorrow@me.com</a></td>
-				<?php } ?>
-			<td>
-				<?php if($_SESSION['level'] == 'admin'){ ?>
-					<a href="?p=delete&i=1"><button type="button" class="btn btn-danger ">Delete</button></a>
-				<?php } ?>
-			</td>
-			<td>
-				<?php if($checkedout){ ?>
-					<a href="?p=instrument&i=1"><button type="button" class="btn btn-info">View</button></a>
-				<?php } else { ?>
-					<a href="?p=checkout&i=1"><button type="button" class="btn btn-info">Checkout</button></a>
-				<?php } ?>
-			</td>
-
-		</tr>
+		<?php foreach ($instArr as $inst) { ?>
+			<tr <?php if($inst['cid'] != ''){ echo 'class="bg-info"'; } ?>>
+				<td><?php $id = $inst['id']; echo $id; ?></td>
+				<td><?php echo $inst['type']; ?></td>
+				<td><?php echo db_get_school($inst['lid'])['name']; ?></td>
+				<td>
+					<?php if($inst['cid'] != ''){  ?>
+						<a href="?p=users&u=<?php echo $inst['cid']; ?>"><?php echo db_get_user($inst['cid'])['email']; ?></a>
+					<?php } ?>
+				</td>
+				<td>
+					<?php if($inst['cid'] != ''){ ?>
+						<a href="?p=browse&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Return</button></a>
+					<?php } else { ?>
+						<a href="?p=browse&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Checkout</button></a>
+					<?php } ?>
+				</td>
+				<td>
+					<?php if($_SESSION['level'] == 'admin'){ ?>
+						<a href="?p=delete&i=<?php echo $id; ?>"><button type="button" class="btn btn-danger ">Delete</button></a>
+					<?php } ?>
+				</td>
+			</tr>
+		<?php } ?>
 	</tbody>
 </table>
 <h4 class="bg-info lead text-center">A blue background indicates that the instrument is currently checked out.</h4>

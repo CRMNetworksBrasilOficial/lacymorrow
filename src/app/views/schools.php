@@ -14,36 +14,35 @@ if(isset($_SESSION['alert'])){ ?>
 
 <div class="row">
 
-<?php if(isset($_GET['s'])){ $sch = db_get_school($_GET['s']);?>
-	<div class="col-sm-6">
-		<h3>Edit #<?php echo $sch['id'].':  '.$sch['name']; ?></h3>
-		<form class="form-inline" role="form" method="post" action="app/includes/update_school.php">
-		  <div class="form-group">
-		    <label class="sr-only" for="school-name">School Name</label>
-		    <input type="text" class="form-control" name="school-name" id="school-name" placeholder="School Name">
-		  </div>
-		  <input type="hidden" name="id" value="<?php echo $sch['id']; ?>">
-		  <button type="submit" class="btn btn-info">Edit Name</button>
-		</form>
-	</div>
-<?php } ?>
-
 <?php if($_SESSION['level'] == 'admin'){ ?>
 	<div class="col-sm-6">
 		<h3>Add a School</h3>
-		<form class="form-inline" role="form" method="post" action="app/includes/add_school.php">
+		<form role="form" method="post" action="app/includes/add_school.php">
 		  <div class="form-group">
 		    <label class="sr-only" for="school-name">School Name</label>
-		    <input type="text" class="form-control" name="school-name" id="school-name" placeholder="School Name">
+		    <input type="text" class="form-control" name="school-name" id="school-name" placeholder="School Name" required>
 		  </div>
 		  <button type="submit" class="btn btn-default">Add School</button>
 		</form>
 	</div>
+	<?php if(isset($_GET['s'])){ $sch = db_get_school($_GET['s']);?>
+		<div class="col-sm-6">
+			<h3>Update School #<?php echo $sch['id'].':  '.$sch['name']; ?></h3>
+			<form role="form" method="post" action="app/includes/update_school.php">
+			  <div class="form-group">
+			    <label class="sr-only" for="school-name">New School Name</label>
+			    <input type="text" class="form-control" name="school-name" id="school-name" placeholder="New School Name" required>
+			  </div>
+			  <input type="hidden" name="id" value="<?php echo $sch['id']; ?>">
+			  <button type="submit" class="btn btn-info">Update Name</button>
+			</form>
+		</div>
+	<?php } ?>
 <?php } ?>
 </div>
 
 <h3>Browse Schools</h3>
-<table class="table table-striped">
+<table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th>#</th>

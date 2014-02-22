@@ -11,6 +11,7 @@ try {
     	$key = str_replace(array('@', '.', ' '), '', $_POST['email']);
 		$user = $users->get($key);
 		if(password_verify($_POST['password'], $user['password'])){
+			$_SESSION['id'] = $user['id'];
 			$_SESSION['user'] = $user['email'];
             $_SESSION['level'] = $user['level'];
 			header('Location: ../../?p=home');

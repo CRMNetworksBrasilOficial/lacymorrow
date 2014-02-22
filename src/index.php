@@ -1,12 +1,12 @@
 <?php
   session_start();
-  if(isset($_SESSION['user'])){
-      $auth = true;
-      $user = $_SESSION['user'];
-  } else { $auth = false; }
-
   $theme = 'app';
   require_once($theme.'/includes/functions.php');
+  if(isset($_SESSION['id']) && is_array(db_get_user($_SESSION['id']))){
+      $auth = true;
+      $user = db_get_user($_SESSION['id']);
+      $id = $user['id'];
+  } else { $auth = false; session_destroy(); }
   // Allow the public to view instrument database
   $public_browse = true;
   $page = (isset($_GET['p'])) ? $_GET['p'] : 'home';

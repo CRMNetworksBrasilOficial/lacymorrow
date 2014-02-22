@@ -6,9 +6,15 @@ function db_delete_user($id){
         $options = array('dir' => 'app/db');
         // Load the databases
         $users = Flintstone::load('users', $options);
+        $instruments = db_get_instruments();
         $keys = $users->getKeys();
         foreach ($keys as $key) {
             if($users->get($key)['id'] == $id){
+                foreach ($instruments as $ins) {
+                    if($ins['cid'] == $id){
+                        db_update_instrument($id, -1);
+                    }
+                }
                 return $users->delete($key);
             }
         }

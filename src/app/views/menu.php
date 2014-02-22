@@ -22,20 +22,20 @@
               <li <?php if($page=='browse'){echo'class="active"';} ?>><a href="?p=browse">Browse</a></li>
             <?php }
             if($auth == true){ ?>
-              <li class="dropdown <?php if($page=='users'||$page=='schools'||$page=='instruments'){echo'active';} ?> ">
+              <li class="dropdown <?php if($page=='users'||$page=='schools'){echo'active';} ?> ">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="?p=users">Users</a></li>
                   <li class="divider"></li>
                   <li><a href="?p=schools">Schools</a></li>
                   <li class="divider"></li>
-                  <li><a href="?p=instruments">Instruments</a></li>
+                  <li><a href="?p=browse">Instruments</a></li>
                 </ul>
               </li>
               <li class="dropdown <?php if($page=='user'){echo'active';} ?> ">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo (isset($user)) ? $user : $auth ; ?><b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo (isset($user['email'])) ? $user['email'] : $id ; ?><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="?p=user">User Details</a></li>
+                  <li><a href="?p=users&u=<?php echo $id; ?>">User Details</a></li>
                   <li class="divider"></li>
                   <li><a href="?p=logout">Sign Out</a></li>
                 </ul>

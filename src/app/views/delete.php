@@ -26,10 +26,10 @@ if($_SESSION['level'] == 'admin' && $auth == true){
         $ins_deleted = db_delete_instrument($_GET['i']);
         if($ins_deleted === true){
             $_SESSION['alert'] = 'Instrument deleted successfully.';
-            header('Location: ../../?p=instruments');
+            header('Location: ../../?p=browse');
         } else {
             $_SESSION['alert'] = $ins_deleted;
-            header('Location: ../../?p=instruments');
+            header('Location: ../../?p=browse');
         }
     }
 } else {
