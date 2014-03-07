@@ -85,10 +85,13 @@ if(isset($_SESSION['alert'])){ ?>
 			<tr <?php if($inst['cid'] != ''){ echo 'class="info"'; } ?>>
 				<td><?php $iid = $inst['id']; echo $iid; ?></td>
 				<td><?php echo $inst['type']; ?></td>
-				<td><?php echo db_get_school($inst['lid'])['name']; ?></td>
+				<td><?php $lid = db_get_school($inst['lid']);
+				echo $lid['name']; ?></td>
 				<td>
 					<?php if($inst['cid'] != ''){  ?>
-						<a href="?p=users&u=<?php echo $inst['cid']; ?>"><?php echo db_get_user($inst['cid'])['email']; ?></a>
+						<a href="?p=users&u=<?php echo $inst['cid']; ?>">
+						<?php $cid = db_get_user($inst['cid']);
+						echo $cid['email']; ?></a>
 					<?php } ?>
 				</td>
 				<td>
