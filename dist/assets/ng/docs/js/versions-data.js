@@ -1,7 +1,7 @@
 // Meta data used by the AngularJS docs app
 angular.module('versionsData', [])
   .value('NG_VERSION', {
-  "full": "1.2.15-build.local+sha.ad309b1",
+  "full": "1.2.15-build.local+sha.21243d6",
   "major": "1",
   "minor": "2",
   "dot": "15",
@@ -11,7 +11,7 @@ angular.module('versionsData', [])
 })
   .value('NG_VERSIONS', [
   {
-    "full": "1.2.15-build.local+sha.ad309b1",
+    "full": "1.2.15-build.local+sha.21243d6",
     "major": "1",
     "minor": "2",
     "dot": "15",
