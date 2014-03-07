@@ -1,0 +1,3 @@
+[submodule "assets/angular.js"]
+	path = assets/angular.js
+	url = https://github.com/angular/angular.js.git
