@@ -8,7 +8,8 @@ function db_get_user($id){
         $users = Flintstone::load('users', $options);
         $keys = $users->getKeys();
         foreach ($keys as $key) {
-            if($users->get($key)['id'] == $id){
+            $tmp = $users->get($key);
+            if($tmp['id'] == $id){
                 return $users->get($key);
             }
         }

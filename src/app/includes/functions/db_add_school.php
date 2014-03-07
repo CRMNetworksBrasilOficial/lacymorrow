@@ -8,9 +8,10 @@ function db_add_school($school){
         $schools = Flintstone::load('schools', $options);
         
         $keys = $schools->getKeys(); // returns array('bob', 'joe', ...)
-        $id = count($keys);
+        $id = count($keys)+1;
         foreach ($keys as $key) {
-            if($schools->get($key)['name'] == $school){
+            $tmp = $schools->get($key);
+            if($tmp['name'] == $school){
                 return 'This school is already registered.';
             }
         }

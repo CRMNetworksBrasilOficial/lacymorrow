@@ -21,7 +21,12 @@ if(isset($_SESSION['alert'])){ ?>
 		  </div>
 		  <div class="form-group">
 		    <label for="i-location">Location</label>
-		    <input type="text" class="form-control" name="i-location" id="i-location" placeholder="Location" required>
+		    <select class="form-control" name="i-location">
+		      <?php $schools = db_get_schools();
+		      foreach ($schools as $school) {
+		      	echo '<option value='.$school['id'].'>'.$school['name'].'</option>';
+		      } ?>
+			</select>
 		  </div>
 		  <button type="submit" class="btn btn-default">Add Instrument</button>
 		</form>
@@ -30,9 +35,29 @@ if(isset($_SESSION['alert'])){ ?>
 		<div class="col-sm-6">
 			<h3>Checkout Instrument #<?php echo $ins['id'].':  '.$ins['type']; ?></h3>
 			<form role="form" method="post" action="app/includes/update_instrument.php">
+	  		  <div class="form-group">
+			    <label for="i-type">Type of instrument</label>
+			    <input type="text" class="form-control" name="i-type" id="i-type" placeholder="Type of instrument">
+			  </div>
 			  <div class="form-group">
-			    <label class="sr-only" for="i-type">Checked out to</label>
-			    <input type="text" class="form-control" name="i-type" id="i-type" placeholder="Email">
+			    <label for="i-location">Location</label>
+			    <select class="form-control" name="i-location">
+			      <?php $schools = db_get_schools();
+			      foreach ($schools as $school) {
+			      	echo '<option value='.$school['id'].'>'.$school['name'].'</option>';
+			      } ?>
+				</select>
+			  </div>
+			  <div class="form-group">
+			    <label for="i-type">Checked out to</label>
+			    <select class="form-control" name="cid">
+			      <option value=""> - Not checked out - </option>
+			      <?php $users = db_get_users();
+			      foreach ($users as $user) {
+			      	$chk = ($ins['cid']===$user['id']) ? 'selected' : '';
+			      	echo '<option value="'.$user['id'].'" '.$chk.'>'.$user['email'].'</option>';
+			      } ?>
+				</select>
 			  </div>
 			  <input type="hidden" name="id" value="<?php echo $ins['id']; ?>">
 			  <button type="submit" class="btn btn-info">Update User</button>
@@ -57,8 +82,8 @@ if(isset($_SESSION['alert'])){ ?>
 	</thead>
 	<tbody>
 		<?php foreach ($instArr as $inst) { ?>
-			<tr <?php if($inst['cid'] != ''){ echo 'class="bg-info"'; } ?>>
-				<td><?php $id = $inst['id']; echo $id; ?></td>
+			<tr <?php if($inst['cid'] != ''){ echo 'class="info"'; } ?>>
+				<td><?php $iid = $inst['id']; echo $iid; ?></td>
 				<td><?php echo $inst['type']; ?></td>
 				<td><?php echo db_get_school($inst['lid'])['name']; ?></td>
 				<td>
@@ -67,17 +92,20 @@ if(isset($_SESSION['alert'])){ ?>
 					<?php } ?>
 				</td>
 				<td>
-					<?php if($inst['cid'] != ''){ ?>
-						<a href="?p=browse&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Return</button></a>
-					<?php } else { ?>
-						<a href="?p=browse&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Checkout</button></a>
+					<?php if($inst['cid'] != '' && $inst['cid'] == $id){ ?>
+						<a href="?p=check&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Return</button></a>
+					<?php } else if($inst['cid'] == ''){ ?>
+						<a href="?p=check&i=<?php echo $id; ?>"><button type="button" class="btn btn-info">Checkout</button></a>
 					<?php } ?>
 				</td>
-				<td>
-					<?php if($_SESSION['level'] == 'admin'){ ?>
-						<a href="?p=delete&i=<?php echo $id; ?>"><button type="button" class="btn btn-danger ">Delete</button></a>
-					<?php } ?>
-				</td>
+				<?php if($_SESSION['level'] == 'admin'){ ?>
+					<td>
+						<a href="?p=browse&i=<?php echo $iid; ?>"><button type="button" class="btn btn-info">Update</button></a>
+					</td>
+					<td>
+						<a href="?p=delete&i=<?php echo $iid; ?>"><button type="button" class="btn btn-danger">Delete</button></a>
+					</td>					
+				<?php } ?>
 			</tr>
 		<?php } ?>
 	</tbody>

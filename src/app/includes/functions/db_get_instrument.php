@@ -5,8 +5,8 @@ function db_get_instrument($key){
         // Set options
         $options = array('dir' => 'app/db');
         // Load the databases
-        $instrument = Flintstone::load('instrument', $options);
-        return $instrument->get($key);
+        $instruments = Flintstone::load('instruments', $options);
+        return $instruments->get($key);
     }
     catch (FlintstoneException $e) {
         return 'An error occured: ' . $e->getMessage();

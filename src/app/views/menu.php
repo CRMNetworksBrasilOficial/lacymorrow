@@ -21,7 +21,7 @@
             <?php if($auth == true || $public_browse == true){ ?>
               <li <?php if($page=='browse'){echo'class="active"';} ?>><a href="?p=browse">Browse</a></li>
             <?php }
-            if($auth == true){ ?>
+            if($_SESSION['level'] == 'admin'){ ?>
               <li class="dropdown <?php if($page=='users'||$page=='schools'){echo'active';} ?> ">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -32,11 +32,11 @@
                   <li><a href="?p=browse">Instruments</a></li>
                 </ul>
               </li>
+            <?php }
+            if($auth){ ?>
               <li class="dropdown <?php if($page=='user'){echo'active';} ?> ">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo (isset($user['email'])) ? $user['email'] : $id ; ?><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="?p=users&u=<?php echo $id; ?>">User Details</a></li>
-                  <li class="divider"></li>
                   <li><a href="?p=logout">Sign Out</a></li>
                 </ul>
               </li>

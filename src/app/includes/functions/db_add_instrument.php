@@ -8,7 +8,7 @@ function db_add_instrument($type, $location){
         $instruments = Flintstone::load('instruments', $options);
         
         $keys = $instruments->getKeys(); // returns array('bob', 'joe', ...)
-        $id = count($keys);
+        $id = count($keys)+1;
         // Insert User
         $instruments->set($id, array('type' => $type, 'id' => $id, 'lid' => $location, 'cid' => ''));
         return true;

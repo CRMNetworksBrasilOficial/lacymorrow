@@ -9,7 +9,8 @@ function db_delete_user($id){
         $instruments = db_get_instruments();
         $keys = $users->getKeys();
         foreach ($keys as $key) {
-            if($users->get($key)['id'] == $id){
+            $tmp = $users->get($key);
+            if($tmp['id'] == $id){
                 foreach ($instruments as $ins) {
                     if($ins['cid'] == $id){
                         db_update_instrument($id, -1);

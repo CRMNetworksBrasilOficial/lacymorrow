@@ -18,7 +18,7 @@
         header('Location: ../../?p=users');
     } else if(isset($_POST['email']) && isset($_POST['password']) && strlen($_POST['password']) >= 8 ){
         //adding from register.php
-        $level = 'admin'; //$default_level;
+        $level = $default_level;
         $user_added = db_add_user($_POST['email'], $_POST['password'], $level);
         if(is_numeric($user_added)){
             $_SESSION['alert'] = "New user ".$_POST['email']." created. You are now logged in.";

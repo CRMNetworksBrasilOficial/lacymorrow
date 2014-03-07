@@ -11,7 +11,7 @@ if(isset($_POST['i-type']) && isset($_POST['i-location'])){
         header('Location: ../../?p=browse');
     }
 } else {
-    $_SESSION['alert'] = "Nothing changed.";
+    $_SESSION['alert'] = "Please select a type and location. Nothing changed.";
     header('Location: ../../?p=browse');
 }
 ?>

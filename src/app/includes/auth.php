@@ -1,6 +1,8 @@
 <?php
 session_start();
+require 'functions.php';
 require_once('flintstone.class.php');
+$t_hasher = new PasswordHash(8, FALSE);
 try {
     // Set options
     $options = array('dir' => '../db');
@@ -10,7 +12,7 @@ try {
     if(isset($_POST['email']) && isset($_POST['password'])){
     	$key = str_replace(array('@', '.', ' '), '', $_POST['email']);
 		$user = $users->get($key);
-		if(password_verify($_POST['password'], $user['password'])){
+		if($t_hasher->CheckPassword($_POST['password'], $user['password'])){
 			$_SESSION['id'] = $user['id'];
 			$_SESSION['user'] = $user['email'];
             $_SESSION['level'] = $user['level'];
