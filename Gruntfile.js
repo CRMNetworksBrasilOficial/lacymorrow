@@ -12,11 +12,11 @@ module.exports = function(grunt) {
     Remember: to add new assets install to devDependencies (package.json) and copy list below.
     You are responsible for keeping assets up to date (e.g. git pull) */
     exec: {
-      ng: {
-        command: '(cd assets/angular.js;git pull;npm install;grunt -f)'
-      },
       bootstrap: {
         command: '(cd assets/bootstrap;git pull;npm install;grunt -f)'
+      },
+      ng: {
+        command: '(cd assets/angular.js;git pull;npm install;grunt -f)'
       }
     },
     copy: {
@@ -206,13 +206,17 @@ module.exports = function(grunt) {
     }
   });
 
+
+  grunt.registerTask('bootstrap', ['copy:bootstrap']);
+  grunt.registerTask('ng', ['copy:ng']);
+
+  grunt.registerTask('assets', ['bootstrap', 'ng']);
   grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('assets', ['exec', 'copy']);
   grunt.registerTask('js', ['concat:js', 'uglify']);
   grunt.registerTask('css', ['less', 'concat:css', 'clean:less', 'autoprefixer', 'csscomb', 'cssmin']);
   grunt.registerTask('static', ['copy',/* 'imagemin', */ 'htmlbuild']);
-  grunt.registerTask('dist', ['clean:dist', 'js', 'css', 'static']);
+  grunt.registerTask('dist', ['clean:dist', 'assets', 'js', 'css', 'static']);
   grunt.registerTask('serve', ['dist','connect','watch']);
-  grunt.registerTask('all', ['assets','test','dist']);
+  grunt.registerTask('all', ['exec','test','dist']);
   grunt.registerTask('default', ['dist']);
 };

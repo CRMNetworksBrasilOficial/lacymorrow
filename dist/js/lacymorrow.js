@@ -7,3 +7,7 @@
 if (typeof jQuery === 'undefined') { throw new Error('Bootstrap requires jQuery') }
 
 
+function setPage(s){
+	$('.navbar-default .active').removeClass('active');
+	$('[href="'+s+'"]').addClass('active');
+}
