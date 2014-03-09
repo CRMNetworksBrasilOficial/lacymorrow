@@ -12,9 +12,6 @@ module.exports = function(grunt) {
     Remember: to add new assets install to devDependencies (package.json) and copy list below.
     You are responsible for keeping assets up to date (e.g. git pull) */
     exec: {
-      ng: {
-        command: '(cd assets/angular.js;git pull;npm install;grunt -f)'
-      },
       bootstrap: {
         command: '(cd assets/bootstrap;git pull;npm install;grunt -f)'
       }
@@ -26,12 +23,6 @@ module.exports = function(grunt) {
         cwd: 'assets/bootstrap/dist/',
         src: ['**'],
         dest: 'dist/assets/bootstrap/'
-      },
-      ng: {
-        expand: true,
-        cwd: 'assets/angular.js/build/',
-        src: ['**'],
-        dest: 'dist/assets/ng/'
       },
     /* END OF BUILD ASSETS */
       app: {
